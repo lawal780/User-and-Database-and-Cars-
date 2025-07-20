@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .title {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1 class="title">Authentication Successful!</h1>
+        <p class="message">You have been successfully authenticated. Redirecting you...</p>
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const error = urlParams.get('error');
+        
+        if (error) {
+            document.querySelector('.success-icon').textContent = '❌';
+            document.querySelector('.title').textContent = 'Authentication Failed';
+            document.querySelector('.message').textContent = 'There was an error during authentication: ' + error;
+            document.querySelector('.spinner').style.display = 'none';
+        } else if (token) {
+            // Store token in localStorage
+            localStorage.setItem('authToken', token);
+            
+            // Redirect to dashboard or home page after 3 seconds
+            setTimeout(() => {
+                window.location.href = '/dashboard'; // Change this to your app's main page
+            }, 3000);
+        } else {
+            document.querySelector('.success-icon').textContent = '⚠️';
+            document.querySelector('.title').textContent = 'No Token Received';
+            document.querySelector('.message').textContent = 'Authentication completed but no token was received.';
+            document.querySelector('.spinner').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

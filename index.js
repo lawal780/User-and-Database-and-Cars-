@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const connectDB = require('./src/config/db.js'); 
 const userRoutes = require('./src/routes/user.routes');
+const carRoutes = require ('./src/routes/cars.routes');
 dotenv.config();
 const app = express();
 
@@ -16,6 +17,7 @@ app.get('/', (req,res) =>{
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/cars', carRoutes);
 
 app.listen(PORT, () =>{
     connectDB();
