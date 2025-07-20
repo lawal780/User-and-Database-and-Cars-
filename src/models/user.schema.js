@@ -16,9 +16,26 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: function(){
+            return !this.googleId;
+        },
         minlength: 6
     },
+    googleId:{
+        type: String,
+    },
+
+    provider:{
+        type: String,
+        enum: ['local', 'google'],
+        default: 'local'
+    },
+
+    avatar:{
+        type: String
+    },
+
+
     isAdmin: {
         type: Boolean,
         default: false,
@@ -26,6 +43,20 @@ const userSchema = new mongoose.Schema({
     token: {
         type: String,
        
+    },
+    emailToken:{
+        type : String
+    },
+    isVerified:{
+        type: Boolean,
+        default: false
+    },
+    otp:{
+        type: String
+    },
+    otpVerified:{
+        type: Boolean,
+        default: false
     }
 },{
     timestamps: true,
